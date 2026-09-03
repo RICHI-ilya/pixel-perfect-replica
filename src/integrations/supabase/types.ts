@@ -835,6 +835,17 @@ export type Database = {
       is_clinic_member: { Args: { _clinic_id: string }; Returns: boolean }
       is_my_doctor_record: { Args: { _doctor_id: string }; Returns: boolean }
       is_my_patient_record: { Args: { _patient_id: string }; Returns: boolean }
+      join_clinic: {
+        Args: {
+          _clinic_id: string
+          _doctor_id?: string
+          _full_name?: string
+          _phone?: string
+          _role: Database["public"]["Enums"]["app_role"]
+          _specialty?: string
+        }
+        Returns: string
+      }
       matching_waitlist: {
         Args: { _appointment_id: string }
         Returns: {
@@ -857,6 +868,14 @@ export type Database = {
           _status: Database["public"]["Enums"]["appt_status"]
         }
         Returns: string
+      }
+      unclaimed_doctors: {
+        Args: { _clinic_id: string }
+        Returns: {
+          full_name: string
+          id: string
+          specialty: string
+        }[]
       }
     }
     Enums: {
