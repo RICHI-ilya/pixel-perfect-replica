@@ -794,6 +794,37 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      available_slots: {
+        Args: {
+          _appointment_type_id: string
+          _clinic_id: string
+          _date: string
+          _doctor_id?: string
+        }
+        Returns: {
+          doctor_id: string
+          doctor_name: string
+          slot_end: string
+          slot_start: string
+        }[]
+      }
+      book_appointment: {
+        Args: {
+          _appointment_type_id: string
+          _clinic_id: string
+          _doctor_id: string
+          _location_id?: string
+          _notes?: string
+          _patient_id: string
+          _room_id?: string
+          _start: string
+        }
+        Returns: string
+      }
+      cancel_appointment: {
+        Args: { _appointment_id: string; _reason?: string }
+        Returns: string
+      }
       has_clinic_role: {
         Args: {
           _clinic_id: string
@@ -804,7 +835,29 @@ export type Database = {
       is_clinic_member: { Args: { _clinic_id: string }; Returns: boolean }
       is_my_doctor_record: { Args: { _doctor_id: string }; Returns: boolean }
       is_my_patient_record: { Args: { _patient_id: string }; Returns: boolean }
+      matching_waitlist: {
+        Args: { _appointment_id: string }
+        Returns: {
+          doctor_name: string
+          id: string
+          notes: string
+          patient_name: string
+          priority: Database["public"]["Enums"]["wait_priority"]
+          type_name: string
+        }[]
+      }
       my_doctor_id: { Args: { _clinic_id: string }; Returns: string }
+      reschedule_appointment: {
+        Args: { _appointment_id: string; _doctor_id?: string; _start: string }
+        Returns: string
+      }
+      set_appointment_status: {
+        Args: {
+          _appointment_id: string
+          _status: Database["public"]["Enums"]["appt_status"]
+        }
+        Returns: string
+      }
     }
     Enums: {
       app_role: "patient" | "doctor" | "admin"
